@@ -253,6 +253,11 @@ const build_player_legend = function () {
 
         list_item.appendChild(swatch);
         list_item.appendChild(label);
+
+        const count = document.createElement("span");
+        count.id = "player_atoms_" + player_num;
+        count.textContent = " – 0";
+        list_item.appendChild(count);
         player_list.appendChild(list_item);
     }, R.range(1, game_state.num_players + 1));
 };
@@ -490,6 +495,31 @@ const play_explosion_steps = function (
     play_next();
 };
 
+const update_atom_counts = function () {
+    const counts = {};
+    R.forEach(function (row) {
+        R.forEach(function (col) {
+            const cell = ChainReaction.get_cell(
+                game_state.board,
+                row,
+                col
+            );
+            if (cell.owner !== 0) {
+                counts[cell.owner] = (
+                    (counts[cell.owner] || 0) + cell.atoms
+                );
+            }
+        }, R.range(0, game_state.grid_width));
+    }, R.range(0, game_state.grid_height));
+
+    R.forEach(function (player_num) {
+        const count_el = el("player_atoms_" + player_num);
+        if (count_el) {
+            count_el.textContent = " – " + (counts[player_num] || 0);
+        }
+    }, R.range(1, game_state.num_players + 1));
+};
+
 // Move handling.
 
 /**
@@ -520,11 +550,13 @@ const handle_cell_click = function (row, col) {
     if (steps.length === 0) {
         // No chain reaction - update immediately.
         render_board(game_state.board, undefined);
+        update_atom_counts();
         update_eliminated_players(game_state.board);
+
         update_turn_info();
         update_clickable_cells();
         if (game_state.game_ended) {
-            show_result();
+            setTimeout(show_result, 1500);
         }
         return;
     }
@@ -537,12 +569,13 @@ const handle_cell_click = function (row, col) {
         // Animation finished - settle on final state.
         is_animating = false;
         render_board(game_state.board, undefined);
+        update_atom_counts();
         update_eliminated_players(game_state.board);
         update_turn_info();
         update_clickable_cells();
 
         if (game_state.game_ended) {
-            show_result();
+            setTimeout(show_result, 1500);
         }
     });
 };
@@ -813,4 +846,5 @@ el("btn_rules_close").onclick = function () {
 // Initial page state - show rules first.
 rules_animating = true;
 rules_dialog.showModal();
+rules_dialog.scrollTop = 0;
 rules_step();

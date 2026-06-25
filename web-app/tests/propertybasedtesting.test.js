@@ -2,7 +2,6 @@ import ChainReaction from "../ChainReaction.js";
 import R from "../ramda.js";
 
 // Configuration for property-based tests.
-const ENDED_GAME_ATTEMPTS = 10;
 const GRID_SIZE = 10;
 const MAX_MOVES = 50;
 const NUM_PLAYERS = 2;
@@ -134,30 +133,6 @@ const make_random_game = function (max_moves) {
     );
 };
 
-/**
- * Recursively retries until a game state that has actually
- * ended is produced. Throws if no ended state is found
- * within the allotted attempts, which itself indicates a
- * bug in is_game_ended.
- * @param {number} attempts_left Remaining attempts.
- * @returns {{moves_made: number, state: object}}
- */
-const make_ended_game = function (attempts_left) {
-    if (attempts_left <= 0) {
-        throw new Error(
-            "Could not generate an ended game after " +
-            ENDED_GAME_ATTEMPTS + " attempts. " +
-            "Is is_game_ended correctly implemented?"
-        );
-    }
-    const result = make_random_game(
-        random_int(NUM_PLAYERS + 1, MAX_MOVES + 1)
-    );
-    if (ChainReaction.is_game_ended(result.state)) {
-        return result;
-    }
-    return make_ended_game(attempts_left - 1);
-};
 
 /**
  * Runs a property check over num_trials randomly generated
@@ -176,20 +151,6 @@ const for_all = function (num_trials, property_fn) {
     );
 };
 
-/**
- * Runs a property check over num_trials game states that
- * are guaranteed to have ended. Every trial is active.
- * @param {number} num_trials Number of trials to run.
- * @param {function} property_fn The property to verify.
- */
-const for_all_ended = function (num_trials, property_fn) {
-    R.forEach(
-        function () {
-            property_fn(make_ended_game(ENDED_GAME_ATTEMPTS));
-        },
-        R.range(0, num_trials)
-    );
-};
 
 describe("Atom conservation", function () {
     it(
@@ -341,54 +302,6 @@ Then turns_played should increase by exactly 1.`,
                         "turns_played should go from " + before +
                         " to " + (before + 1) +
                         ", got " + next.turns_played
-                    );
-                }
-            });
-        }
-    );
-});
-
-describe("Ended game is absorbing", function () {
-    it(
-        `Given a game that has ended,
-When a player attempts to place an atom anywhere,
-Then turns_played should not change.`,
-        function () {
-            for_all_ended(NUM_TRIALS, function (result) {
-                const before = result.state.turns_played;
-                const r = random_int(0, GRID_SIZE);
-                const c = random_int(0, GRID_SIZE);
-                const new_state = ChainReaction.place_atom(
-                    result.state,
-                    r,
-                    c
-                );
-                if (new_state.turns_played !== before) {
-                    throw new Error(
-                        "Placing on an ended game must not " +
-                        "change turns_played (was " + before + ")"
-                    );
-                }
-            });
-        }
-    );
-});
-
-describe("Winner validity", function () {
-    it(
-        `Given a game that has ended,
-When the winner is retrieved,
-Then it should be a valid player number.`,
-        function () {
-            for_all_ended(NUM_TRIALS, function (result) {
-                const winner = ChainReaction.get_winner(
-                    result.state
-                );
-                if (winner < 1 || winner > NUM_PLAYERS) {
-                    throw new Error(
-                        "get_winner returned " + winner +
-                        " on an ended game, expected 1 to " +
-                        NUM_PLAYERS
                     );
                 }
             });

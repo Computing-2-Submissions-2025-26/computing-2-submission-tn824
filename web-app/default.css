@@ -107,6 +107,12 @@ header h1
     text-transform: uppercase;
 }
 
+header a
+{
+    color: var(--text-colour);
+    position: absolute;
+    right: 1em;
+}
 
 /*
  * Main area: molecular dot-grid background
