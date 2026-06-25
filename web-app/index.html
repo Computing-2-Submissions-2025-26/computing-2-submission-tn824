@@ -1,13 +1,98 @@
-<!-- In HTML Comments are written like this -->
-<!-- They can all be removed for your apps -->
-<!doctype html> <!-- This first line tells browsers to expect modern standard html 5 -->
-<html lang="en-gb"> <!-- This is indicates the page is written in British English, useful for accessibility -->
-<meta charset="utf-8"> <!-- This indicates how the file is encoded. utf-8 is standard -->
-<title>Your Web-app Title</title> <!-- All pages need a title, this will be displayed in the browser's title bar -->
-<link rel="stylesheet" href="default.css"> <!-- Import style sheet – default.css -->
-<link rel="icon" href="./assets/favicon.png"> <!-- Import 'Favorites Icon' – favicon.png -->
-<script type="module" src="main.js"></script> <!-- Load the main script. Must be type="module". Have only one of these -->
+<!doctype html>
+<!-- Indicates the page is written in British English -->
+<html lang="en-gb">
+<meta charset="utf-8">
+<title>Chain Reaction</title>
+<link rel="stylesheet" href="default.css">
+<link rel="icon" href="./assets/favicon.png">
+<!-- Must be type="module". Have only one of these. -->
+<script type="module" src="main.js"></script>
 
-<h1>Chain Reaction</h1>
-<p>Player turn: <span id="current_player">1</span></p>
-<div id="game_board"></div>
+<header>
+    <h1>Chain Reaction</h1>
+</header>
+
+<main tabindex="-1">
+    <div id="player_select" aria-label="Player selection">
+        <h2>How many players?</h2>
+        <div class="button_group">
+            <!--
+                Buttons styled as periodic table element tiles.
+                Atomic numbers align with selection values:
+                He = 2,  Li = 3,  Be = 4
+            -->
+            <button id="btn_players_2" class="elem_tile"
+                    aria-label="2 players">
+                <span class="elem_number">2</span>
+                <span class="elem_symbol">He</span>
+                <span class="elem_name">2 Players</span>
+            </button>
+            <button id="btn_players_3" class="elem_tile"
+                    aria-label="3 players">
+                <span class="elem_number">3</span>
+                <span class="elem_symbol">Li</span>
+                <span class="elem_name">3 Players</span>
+            </button>
+            <button id="btn_players_4" class="elem_tile"
+                    aria-label="4 players">
+                <span class="elem_number">4</span>
+                <span class="elem_symbol">Be</span>
+                <span class="elem_name">4 Players</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="grid_select" aria-label="Grid size selection">
+        <h2>Choose a grid size</h2>
+        <div class="button_group">
+            <!--
+                Ne = 10,  P = 15
+            -->
+            <button id="btn_grid_10" class="elem_tile"
+                    aria-label="10 by 10 grid">
+                <span class="elem_number">10</span>
+                <span class="elem_symbol">Ne</span>
+                <span class="elem_name">10 x 10</span>
+            </button>
+            <button id="btn_grid_15" class="elem_tile"
+                    aria-label="15 by 15 grid">
+                <span class="elem_number">15</span>
+                <span class="elem_symbol">P</span>
+                <span class="elem_name">15 x 15</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="game_area" aria-label="Game board area">
+        <div id="game_board" role="grid"
+             aria-label="Chain Reaction game board"></div>
+    </div>
+</main>
+
+<aside id="sidebar_left" aria-label="Current turn information">
+    <div id="turn_info" aria-live="polite">
+        <div id="current_player_indicator"
+             aria-label="Current player colour"></div>
+        <p id="current_player_label"></p>
+        <p id="phase_info"></p>
+    </div>
+</aside>
+
+<aside id="sidebar_right" aria-label="Game information">
+    <div id="player_legend">
+        <h2>Players</h2>
+        <ul id="player_list" aria-label="Player colours"></ul>
+    </div>
+    <button id="btn_reset_game" aria-label="Start a new game">
+        New Game
+    </button>
+</aside>
+
+<dialog id="result_dialog" tabindex="0" aria-label="Game over">
+    <div id="result_explosion" aria-hidden="true"></div>
+    <h2>Game Over</h2>
+    <div id="result_winner"></div>
+    <button id="btn_play_again" aria-label="Play again">
+        Play Again
+    </button>
+</dialog>
