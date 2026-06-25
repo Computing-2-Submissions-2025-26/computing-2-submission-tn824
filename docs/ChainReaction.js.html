@@ -103,7 +103,7 @@ ChainReaction.player_order = Object.freeze({
 
 /**
  * Map of cell position types to max atom capacities.
- * Atom capacities correspond to number of adjcent cells.
+ * Atom capacities are the number of adjcent cells.
  * @memberof ChainReaction
  * @enum {number}
  */
@@ -124,7 +124,10 @@ ChainReaction.max_capacity = Object.freeze({
  * @returns {boolean} True if the cell is a corner
  */
 ChainReaction.is_corner = function (
-    row, col, grid_width, grid_height
+    row,
+    col,
+    grid_width,
+    grid_height
 ) {
     const max_row = grid_height - 1;
     const max_col = grid_width - 1;
@@ -144,10 +147,16 @@ ChainReaction.is_corner = function (
  * @returns {boolean} True if the cell is an edge cell
  */
 ChainReaction.is_edge = function (
-    row, col, grid_width, grid_height
+    row,
+    col,
+    grid_width,
+    grid_height
 ) {
     if (ChainReaction.is_corner(
-        row, col, grid_width, grid_height
+        row,
+        col,
+        grid_width,
+        grid_height
     )) {
         return false;
     }
@@ -160,8 +169,8 @@ ChainReaction.is_edge = function (
 };
 
 /**
- * Determines if a cell is in the middle of the grid.
- * A middle cell is not on the border at all.
+ * Determines if a cell is in the middle of the grid
+ * A middle cell isn't on the border at all
  * @memberof ChainReaction
  * @function
  * @param {number} row The row index
@@ -171,22 +180,30 @@ ChainReaction.is_edge = function (
  * @returns {boolean} True if the cell is a middle cell
  */
 ChainReaction.is_middle = function (
-    row, col, grid_width, grid_height
+    row,
+    col,
+    grid_width,
+    grid_height
 ) {
     return !(
         ChainReaction.is_corner(
-            row, col, grid_width, grid_height
+            row,
+            col,
+            grid_width,
+            grid_height
         ) ||
         ChainReaction.is_edge(
-            row, col, grid_width, grid_height
+            row,
+            col,
+            grid_width,
+            grid_height
         )
     );
 };
 
 /**
  * Returns the maximum atom capacity for a cell.
- * Capacity depends on position: corner=2, edge=3,
- * middle=4.
+ * Capacity depends on position: corner=2, edge=3, middle=4.
  * @memberof ChainReaction
  * @function
  * @param {number} row The row index
@@ -196,15 +213,24 @@ ChainReaction.is_middle = function (
  * @returns {number} Maximum atom capacity (2, 3, or 4)
  */
 ChainReaction.get_max_capacity = function (
-    row, col, grid_width, grid_height
+    row,
+    col,
+    grid_width,
+    grid_height
 ) {
     if (ChainReaction.is_corner(
-        row, col, grid_width, grid_height
+        row,
+        col,
+        grid_width,
+        grid_height
     )) {
         return ChainReaction.max_capacity.corner;
     }
     if (ChainReaction.is_edge(
-        row, col, grid_width, grid_height
+        row,
+        col,
+        grid_width,
+        grid_height
     )) {
         return ChainReaction.max_capacity.edge;
     }
@@ -213,7 +239,7 @@ ChainReaction.get_max_capacity = function (
 
 /**
  * Returns all valid adjacent cells for a given
- * position. Cells outside the grid are excluded.
+ * position, cells outside the grid are excluded
  * @memberof ChainReaction
  * @function
  * @param {number} row The row index of the cell
@@ -224,7 +250,10 @@ ChainReaction.get_max_capacity = function (
  *     pairs within bounds
  */
 ChainReaction.get_adjacent_cells = function (
-    row, col, grid_width, grid_height
+    row,
+    col,
+    grid_width,
+    grid_height
 ) {
     const all_directions = [
         [row - 1, col], // above
@@ -268,7 +297,8 @@ ChainReaction.empty_cell = function () {
  * @returns {ChainReaction.Board} A fresh empty board
  */
 ChainReaction.create_empty_board = function (
-    grid_width, grid_height
+    grid_width,
+    grid_height
 ) {
     return R.times(function () {
         return R.times(ChainReaction.empty_cell, grid_width);
@@ -287,7 +317,9 @@ ChainReaction.create_empty_board = function (
  *     size is not 10 or 15
  */
 ChainReaction.create_game = function (
-    num_players, grid_width, grid_height
+    num_players,
+    grid_width,
+    grid_height
 ) {
     const valid_players = (
         num_players >= 2 &amp;&amp; num_players &lt;= 4
@@ -308,7 +340,8 @@ ChainReaction.create_game = function (
 
     return {
         "board": ChainReaction.create_empty_board(
-            grid_width, grid_height
+            grid_width,
+            grid_height
         ),
         "explosion_steps": [],
         "game_ended": false,
@@ -325,11 +358,11 @@ ChainReaction.create_game = function (
 };
 
 /**
- * Returns which player should move next.
+ * Returns which player should move next
  * The current player is always turn_order[0]. After
  * each turn place_atom rotates the list so the next
- * player moves to the front, eliminations are handled
- * by removing a player from the list before rotating.
+ * player moves to the front, eliminated players are
+ * removed from the list
  * @memberof ChainReaction
  * @function
  * @param {ChainReaction.GameState} game_state The state
@@ -359,7 +392,10 @@ ChainReaction.get_current_player = function (game_state) {
  * @returns {boolean} True if within bounds
  */
 ChainReaction.is_within_bounds = function (
-    row, col, grid_width, grid_height
+    row,
+    col,
+    grid_width,
+    grid_height
 ) {
     return (
         row >= 0 &amp;&amp; row &lt; grid_height &amp;&amp;
@@ -391,7 +427,7 @@ ChainReaction.get_cell = function (board, row, col) {
 
 /**
  * Returns a deep copy of the board so mutations to
- * the copy do not affect the original.
+ * the copy do not affect the original
  * @memberof ChainReaction
  * @function
  * @param {ChainReaction.Board} board The board to copy
@@ -409,7 +445,7 @@ ChainReaction.copy_board = function (board) {
 };
 
 /**
- * Checks whether a cell should explode.
+ * Checks whether a cell should explode
  * A cell explodes when its atom count reaches or
  * exceeds its maximum capacity for its position.
  * @memberof ChainReaction
@@ -422,23 +458,29 @@ ChainReaction.copy_board = function (board) {
  * @returns {boolean} True if the cell should explode
  */
 ChainReaction.should_explode = function (
-    row, col, board, grid_width, grid_height
+    row,
+    col,
+    board,
+    grid_width,
+    grid_height
 ) {
     const cell = board[row][col];
     const capacity = ChainReaction.get_max_capacity(
-        row, col, grid_width, grid_height
+        row,
+        col,
+        grid_width,
+        grid_height
     );
     return cell.atoms >= capacity;
 };
 
 /**
- * Applies one single explosion to a board in place.
- * Removes all atoms from the exploding cell then adds
- * one atom of the exploding player's colour to each
- * adjacent cell. Does NOT copy the board - the caller
- * passes a pre-copied board so that all explosions in
- * one wave share a single copy rather than each making
- * their own.
+ * Applies one explosion to a board in place and removes
+ * all atoms from the exploding cell then adds one atom
+ * of the exploding player's colour to the adjacent cells.
+ * Does not copy the board - the caller passes a pre-copied
+ * board so that all explosions in one wave share a single
+ * copy rather than each making their own.
  * @memberof ChainReaction
  * @function
  * @param {number} row Row of the exploding cell
@@ -449,7 +491,11 @@ ChainReaction.should_explode = function (
  * @returns {ChainReaction.Board} The same board mutated
  */
 ChainReaction.apply_one_explosion = function (
-    row, col, board, grid_width, grid_height
+    row,
+    col,
+    board,
+    grid_width,
+    grid_height
 ) {
     const exploding_player = board[row][col].owner;
 
@@ -458,11 +504,13 @@ ChainReaction.apply_one_explosion = function (
     board[row][col].owner = 0;
 
     const neighbours = ChainReaction.get_adjacent_cells(
-        row, col, grid_width, grid_height
+        row,
+        col,
+        grid_width,
+        grid_height
     );
 
-    // Distribute one atom of exploding colour to each
-    // adjacent cell
+    // Place one atom of exploding colour to each adjacent cell
     R.forEach(function (neighbour) {
         const n_row = neighbour[0];
         const n_col = neighbour[1];
@@ -474,8 +522,8 @@ ChainReaction.apply_one_explosion = function (
 };
 
 /**
- * Finds all cells that need to explode on a board.
- * Returns their [row, col] coordinates.
+ * Finds all cells that need to explode on a board and
+ * returns their [row, col] coordinates.
  * @memberof ChainReaction
  * @function
  * @param {ChainReaction.Board} board The board to scan
@@ -484,11 +532,13 @@ ChainReaction.apply_one_explosion = function (
  * @returns {Array&lt;Array&lt;number>>} Cells to explode
  */
 ChainReaction.find_exploding_cells = function (
-    board, grid_width, grid_height
+    board,
+    grid_width,
+    grid_height
 ) {
     // R.reduce threads an accumulator through every
     // [row, col] pair. When a cell needs to explode
-    // we append its coordinates - no mutation needed.
+    // append its coordinates - no mutation needed.
     const all_coords = R.xprod(
         R.range(0, grid_height),
         R.range(0, grid_width)
@@ -497,7 +547,11 @@ ChainReaction.find_exploding_cells = function (
         const row = coords[0];
         const col = coords[1];
         if (ChainReaction.should_explode(
-            row, col, board, grid_width, grid_height
+            row,
+            col,
+            board,
+            grid_width,
+            grid_height
         )) {
             return R.append([row, col], acc);
         }
@@ -522,7 +576,9 @@ ChainReaction.find_exploding_cells = function (
  *     Empty array if no explosions occurred.
  */
 ChainReaction.resolve_explosions = function (
-    board, grid_width, grid_height
+    board,
+    grid_width,
+    grid_height
 ) {
     // Inner recursive function accumulates one step
     // per wave into steps_so_far, then calls itself
@@ -533,7 +589,8 @@ ChainReaction.resolve_explosions = function (
     const max_steps = grid_width * grid_height;
 
     const resolve_step = function (
-        current_board, steps_so_far
+        current_board,
+        steps_so_far
     ) {
         if (steps_so_far.length >= max_steps) {
             return steps_so_far;
@@ -541,7 +598,9 @@ ChainReaction.resolve_explosions = function (
 
         const exploding_cells = (
             ChainReaction.find_exploding_cells(
-                current_board, grid_width, grid_height
+                current_board,
+                grid_width,
+                grid_height
             )
         );
 
@@ -559,8 +618,11 @@ ChainReaction.resolve_explosions = function (
         const board_after_wave = R.reduce(
             function (acc, cell) {
                 return ChainReaction.apply_one_explosion(
-                    cell[0], cell[1],
-                    acc, grid_width, grid_height
+                    cell[0],
+                    cell[1],
+                    acc,
+                    grid_width,
+                    grid_height
                 );
             },
             wave_copy,
@@ -668,10 +730,13 @@ ChainReaction.place_atom = function (game_state, row, col) {
     if (!game_state || typeof game_state !== "object") {
         throw new Error(
             "game_state must be a valid game state object"
-        )
+        );
     }
     if (!ChainReaction.is_within_bounds(
-        row, col, game_state.grid_width, game_state.grid_height
+        row,
+        col,
+        game_state.grid_width,
+        game_state.grid_height
     )) {
         return game_state;
     }
@@ -696,8 +761,7 @@ ChainReaction.place_atom = function (game_state, row, col) {
     }
 
     // Place atom on a fresh copy of the board
-    const board_with_atom = ChainReaction
-        .copy_board(game_state.board);
+    const board_with_atom = ChainReaction.copy_board(game_state.board);
     board_with_atom[row][col].owner = current_player;
     board_with_atom[row][col].atoms += 1;
 
@@ -731,8 +795,7 @@ ChainReaction.place_atom = function (game_state, row, col) {
     // the players who have placed so far.
     // R.tail moves past the current player;
     // R.append puts them at the back for next cycle.
-    const active_players = ChainReaction
-        .get_active_players(settled_board);
+    const active_players = ChainReaction.get_active_players(settled_board);
     const after_elimination = (
         new_initial_phase
         ? game_state.turn_order
@@ -797,7 +860,7 @@ export default Object.freeze(ChainReaction);</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Jun 24 2026 21:49:02 GMT+0100 (British Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Thu Jun 25 2026 04:10:15 GMT+0100 (British Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

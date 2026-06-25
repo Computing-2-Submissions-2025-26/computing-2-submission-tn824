@@ -15,6 +15,10 @@ const game_board = el("game_board");
 const player_list = el("player_list");
 const result_dialog = el("result_dialog");
 
+const rules_dialog = el("rules_dialog");
+const rules_mini_grid_el = el("rules_mini_grid");
+const rules_caption_el = el("rules_caption");
+
 // Holds the current settled game state after each turn
 let game_state = null;
 
@@ -552,5 +556,224 @@ const play_again = function () {
 el("btn_reset_game").onclick = reset_to_setup;
 el("btn_play_again").onclick = play_again;
 
-// Initial page state.
-show_player_select();
+// Rules dialog animation.
+
+const rules_frames = [
+    {
+        caption: "Player 1 has 1 atom in the corner" +
+        " (max. 2). Player 2 has 2 atoms on the" +
+        " edge next door (max. 3).",
+        critical: [],
+        grid: [
+            [
+                {a: 1, p: 1},
+                {a: 2, p: 2},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ]
+        ],
+        ms: 3000,
+        new_cell: null
+    },
+    {
+        caption: "Player 1 places an atom in their cell" +
+        " and it has reached maximum capacity",
+        critical: [{c: 0, r: 0}],
+        grid: [
+            [
+                {a: 2, p: 1},
+                {a: 2, p: 2},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ]
+        ],
+        ms: 1800,
+        new_cell: {c: 0, r: 0}
+    },
+    {
+        caption: "BOOM! The corner cell explodes!",
+        critical: [{c: 1, r: 0}],
+        grid: [
+            [
+                {a: 0, p: 0},
+                {a: 3, p: 1},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 1, p: 1},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ]
+        ],
+        ms: 1800,
+        new_cell: null
+    },
+    {
+        caption: "CHAIN REACTION!",
+        critical: [],
+        grid: [
+            [
+                {a: 1, p: 1},
+                {a: 0, p: 0},
+                {a: 1, p: 1},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 1, p: 1},
+                {a: 1, p: 1},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ],
+            [
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0},
+                {a: 0, p: 0}
+            ]
+        ],
+        ms: 3000,
+        new_cell: null
+    }
+];
+
+const rules_cell_els = R.map(function (row_index) {
+    return R.map(function (col_index) {
+        const cell = document.createElement("div");
+        cell.className = "mini_cell";
+        cell.setAttribute("data-row", row_index);
+        cell.setAttribute("data-col", col_index);
+        rules_mini_grid_el.appendChild(cell);
+        return cell;
+    }, R.range(0, 4));
+}, R.range(0, 4));
+
+const render_rules_frame = function (frame_index) {
+    const frame = rules_frames[frame_index];
+    R.forEach(function (row_index) {
+        R.forEach(function (col_index) {
+            const cell_el = (
+                rules_cell_els[row_index][col_index]
+            );
+            const cell_data = (
+                frame.grid[row_index][col_index]
+            );
+            cell_el.className = "mini_cell";
+            cell_el.innerHTML = "";
+            const is_new = (
+                frame.new_cell !== null &&
+                frame.new_cell.r === row_index &&
+                frame.new_cell.c === col_index
+            );
+            if (is_new) {
+                cell_el.classList.add("rules_pop");
+            }
+            const is_critical = R.any(
+                function (k) {
+                    return (
+                        k.r === row_index &&
+                        k.c === col_index
+                    );
+                },
+                frame.critical
+            );
+            if (is_critical) {
+                cell_el.classList.add("rules_critical");
+            }
+            if (cell_data.p > 0 && cell_data.a > 0) {
+                const atom_el = document.createElement("div");
+                atom_el.className = (
+                    "mini_atom player_" + cell_data.p
+                );
+                atom_el.textContent = String(cell_data.a);
+                cell_el.appendChild(atom_el);
+            }
+        }, R.range(0, 4));
+    }, R.range(0, 4));
+    rules_caption_el.textContent = frame.caption;
+};
+
+let rules_frame_index = 0;
+let rules_timeout_id = null;
+let rules_animating = false;
+
+const rules_step = function () {
+    if (!rules_animating) {
+        return;
+    }
+    render_rules_frame(rules_frame_index);
+    const frame_ms = rules_frames[rules_frame_index].ms;
+    rules_frame_index = (
+        rules_frame_index + 1
+    ) % rules_frames.length;
+    rules_timeout_id = setTimeout(rules_step, frame_ms);
+};
+
+el("btn_rules_close").onclick = function () {
+    rules_animating = false;
+    if (rules_timeout_id !== null) {
+        clearTimeout(rules_timeout_id);
+    }
+    rules_dialog.close();
+    show_player_select();
+};
+
+// Initial page state - show rules first.
+rules_animating = true;
+rules_dialog.showModal();
+rules_step();

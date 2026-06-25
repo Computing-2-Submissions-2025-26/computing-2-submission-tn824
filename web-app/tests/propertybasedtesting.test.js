@@ -3,7 +3,7 @@ import R from "../ramda.js";
 
 // Configuration for property-based tests.
 const ENDED_GAME_ATTEMPTS = 10;
-const GRID_SIZE = 5;
+const GRID_SIZE = 10;
 const MAX_MOVES = 50;
 const NUM_PLAYERS = 2;
 const NUM_TRIALS = 50;

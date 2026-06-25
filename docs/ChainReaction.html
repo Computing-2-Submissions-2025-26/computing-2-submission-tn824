@@ -189,7 +189,7 @@ reactions. The last player with atoms on the board wins.</p></li></ul></dd>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p>Map of cell position types to max atom capacities.
-Atom capacities correspond to number of adjcent cells.</p></li></ul></dd>
+Atom capacities are the number of adjcent cells.</p></li></ul></dd>
     
 
     
@@ -236,7 +236,7 @@ Atom capacities correspond to number of adjcent cells.</p></li></ul></dd>
 
 <div class="description usertext">
     <p>Map of cell position types to max atom capacities.
-Atom capacities correspond to number of adjcent cells.</p>
+Atom capacities are the number of adjcent cells.</p>
 </div>
 
 
@@ -358,19 +358,18 @@ Determines turn order for each player count.</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Applies one single explosion to a board in place.
-Removes all atoms from the exploding cell then adds
-one atom of the exploding player's colour to each
-adjacent cell. Does NOT copy the board - the caller
-passes a pre-copied board so that all explosions in
-one wave share a single copy rather than each making
-their own.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Applies one explosion to a board in place and removes
+all atoms from the exploding cell then adds one atom
+of the exploding player's colour to the adjacent cells.
+Does not copy the board - the caller passes a pre-copied
+board so that all explosions in one wave share a single
+copy rather than each making their own.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line404">line 404</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line446">line 446</a>
     </li></ul></dd>
     
 
@@ -619,13 +618,13 @@ their own.</p></li></ul></dd>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p>Returns a deep copy of the board so mutations to
-the copy do not affect the original.</p></li></ul></dd>
+the copy do not affect the original</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line353">line 353</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line389">line 389</a>
     </li></ul></dd>
     
 
@@ -785,7 +784,7 @@ object with no shared references.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line223">line 223</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -967,7 +966,7 @@ object with no shared references.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line242">line 242</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -1188,7 +1187,7 @@ cells do not share references.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line209">line 209</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -1290,14 +1289,14 @@ cells do not share references.</p></li></ul></dd>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Finds all cells that need to explode on a board.
-Returns their [row, col] coordinates.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Finds all cells that need to explode on a board and
+returns their [row, col] coordinates.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line439">line 439</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line487">line 487</a>
     </li></ul></dd>
     
 
@@ -1504,7 +1503,7 @@ Used to determine if the game has ended.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line541">line 541</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line603">line 603</a>
     </li></ul></dd>
     
 
@@ -1657,13 +1656,13 @@ Used to determine if the game has ended.</p></li></ul></dd>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p>Returns all valid adjacent cells for a given
-position. Cells outside the grid are excluded.</p></li></ul></dd>
+position, cells outside the grid are excluded</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line179">line 179</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -1894,7 +1893,7 @@ pairs within bounds</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line332">line 332</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -2094,17 +2093,17 @@ pairs within bounds</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Returns which player should move next.
+    <dd class="tag-description"><ul class="dummy"><li><p>Returns which player should move next
 The current player is always turn_order[0]. After
 each turn place_atom rotates the list so the next
-player moves to the front, eliminations are handled
-by removing a player from the list before rotating.</p></li></ul></dd>
+player moves to the front, eliminated players are
+removed from the list</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line291">line 291</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -2257,14 +2256,13 @@ by removing a player from the list before rotating.</p></li></ul></dd>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p>Returns the maximum atom capacity for a cell.
-Capacity depends on position: corner=2, edge=3,
-middle=4.</p></li></ul></dd>
+Capacity depends on position: corner=2, edge=3, middle=4.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line151">line 151</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -2495,7 +2493,7 @@ Returns 0 if the game is still ongoing.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line588">line 588</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line650">line 650</a>
     </li></ul></dd>
     
 
@@ -2883,7 +2881,7 @@ Returns 0 if the game is still ongoing.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line99">line 99</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -3116,7 +3114,7 @@ player has placed their first atom.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line565">line 565</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line627">line 627</a>
     </li></ul></dd>
     
 
@@ -3268,14 +3266,14 @@ player has placed their first atom.</p></li></ul></dd>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Determines if a cell is in the middle of the grid.
-A middle cell is not on the border at all.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Determines if a cell is in the middle of the grid
+A middle cell isn't on the border at all</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line126">line 126</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line135">line 135</a>
     </li></ul></dd>
     
 
@@ -3505,7 +3503,7 @@ A middle cell is not on the border at all.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line314">line 314</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line347">line 347</a>
     </li></ul></dd>
     
 
@@ -3742,7 +3740,7 @@ or game already ended.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line620">line 620</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line682">line 682</a>
     </li></ul></dd>
     
 
@@ -3955,7 +3953,7 @@ can display each step with a delay.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line477">line 477</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line531">line 531</a>
     </li></ul></dd>
     
 
@@ -4157,7 +4155,7 @@ Empty array if no explosions occurred.</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Checks whether a cell should explode.
+    <dd class="tag-description"><ul class="dummy"><li><p>Checks whether a cell should explode
 A cell explodes when its atom count reaches or
 exceeds its maximum capacity for its position.</p></li></ul></dd>
     
@@ -4165,7 +4163,7 @@ exceeds its maximum capacity for its position.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line377">line 377</a>
+        <a href="ChainReaction.js.html">ChainReaction.js</a>, <a href="ChainReaction.js.html#line413">line 413</a>
     </li></ul></dd>
     
 
@@ -4859,7 +4857,7 @@ no chain reaction occurred this turn.</p></td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Jun 24 2026 21:49:02 GMT+0100 (British Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Thu Jun 25 2026 04:10:15 GMT+0100 (British Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

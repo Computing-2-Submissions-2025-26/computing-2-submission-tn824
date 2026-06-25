@@ -96,3 +96,62 @@
         Play Again
     </button>
 </dialog>
+
+<dialog id="rules_dialog" tabindex="0"
+        aria-label="How to play Chain Reaction">
+    <h2>Welcome to Chain Reaction!</h2>
+    <div id="rules_body">
+        <div id="rules_text">
+            <p>You and your opponents take turns placing atoms
+            on the grid, one atom per turn. On your
+            <strong>first turn</strong>, you can place anywhere.
+            After that, you can only place on cells you
+            <strong>already own</strong>.</p>
+            <p>Every cell can only hold so many atoms before it
+            <strong>explodes</strong>. How many? Simple: one
+            for each neighbour it has.</p>
+            <ul>
+                <li>A corner cell explodes after
+                    <strong>2</strong> atoms</li>
+                <li>An edge cell explodes after
+                    <strong>3</strong> atoms</li>
+                <li>A middle cell explodes after
+                    <strong>4</strong> atoms</li>
+            </ul>
+            <p>When a cell explodes, it fires one atom into
+            each neighbour. If your explosion hits an
+            opponent's cell, you steal it. Their atoms become
+            yours. And if that neighbour was already nearly
+            full? It explodes too, setting off a
+            <strong>CHAIN REACTION</strong>.</p>
+            <p>One cell blows, triggers another, triggers
+            another. Watch the whole board flip in a single
+            move.</p>
+            <p>A player is eliminated the moment they run out
+            of atoms on the board.</p>
+            <p><strong>Last one standing wins.</strong></p>
+        </div>
+        <div id="rules_animation">
+            <p id="rules_animation_label">Watch it happen</p>
+            <div id="rules_mini_grid" role="presentation"
+                 aria-hidden="true"></div>
+            <div id="rules_legend">
+                <div class="rules_legend_item">
+                    <div class="rules_legend_swatch player_1">
+                    </div>
+                    <span>Player 1</span>
+                </div>
+                <div class="rules_legend_item">
+                    <div class="rules_legend_swatch player_2">
+                    </div>
+                    <span>Player 2</span>
+                </div>
+            </div>
+            <p id="rules_caption" aria-live="polite"></p>
+        </div>
+    </div>
+    <button id="btn_rules_close"
+            aria-label="Close rules and start game">
+        Let's play!
+    </button>
+</dialog>
