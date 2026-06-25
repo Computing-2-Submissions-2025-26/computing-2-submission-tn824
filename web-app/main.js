@@ -151,7 +151,7 @@ const start_game = function (grid_size) {
 // Board construction.
 
 /**
- * Creates one cell div with its click handler.
+ * Creates one cell div with its click handler and keyboard access
  * @param {number} row The row index of the cell
  * @param {number} col The column index of the cell
  * @returns {HTMLElement} The created cell div
@@ -159,6 +159,7 @@ const start_game = function (grid_size) {
 const create_cell_div = function (row, col) {
     const cell_div = document.createElement("div");
     cell_div.className = "board_cell";
+    cell_div.tabIndex = 0;
     cell_div.setAttribute("role", "gridcell");
     cell_div.setAttribute(
         "aria-label",
@@ -167,6 +168,42 @@ const create_cell_div = function (row, col) {
 
     cell_div.onclick = function () {
         handle_cell_click(row, col);
+    };
+
+    cell_div.onkeydown = function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handle_cell_click(row, col);
+            cell_elements[row][col].focus();
+        }
+        if (event.key === "Tab") {
+            event.preventDefault();
+            cell_div.blur();
+        }
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if (row > 0) {
+                cell_elements[row - 1][col].focus();
+            }
+        }
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            if (row < game_state.grid_height - 1) {
+                cell_elements[row + 1][col].focus();
+            }
+        }
+        if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            if (col > 0) {
+                cell_elements[row][col - 1].focus();
+            }
+        }
+        if (event.key === "ArrowRight") {
+            event.preventDefault();
+            if (col < game_state.grid_width - 1) {
+                cell_elements[row][col + 1].focus();
+            }
+        }
     };
 
     return cell_div;

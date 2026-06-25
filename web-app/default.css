@@ -327,7 +327,7 @@ button:disabled
     background: var(--bg-cell-hover);
 }
 
-.board_cell:focus
+.board_cell:focus-visible
 {
     outline: 2px solid var(--text-colour);
     outline-offset: -2px;
